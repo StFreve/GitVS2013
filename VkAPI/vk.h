@@ -4,6 +4,9 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 namespace vk{
 	//Variables
 	const QUrl API_URL("https://api.vk.com/method/");
