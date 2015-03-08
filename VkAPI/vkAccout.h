@@ -9,11 +9,12 @@ class vk::vkAccount:public QWidget{
 
 
 signals:
+	void syncStarted();
 	void syncFinished();
 	void syncError();
 	void requestFinished(const QByteArray&);
-	void requestError();
-
+	void requestError(const ApiRequestError&);
+	void requestSended();
 public:
 	// Constructors and Destructor
 	vkAccount(QWidget* = 0);
@@ -26,31 +27,38 @@ public:
 	QString getFirstName() const;
 	QString getLastName() const;
 	QString getUserID() const;
-
+	QUrl getAvatarUrl() const;
 	// Write Functions
 	void updateToken(const QString&);
 
 	// POST and GET Requests
-	QNetworkReply* httpGET(const QString&,QUrlQuery);
-	QNetworkReply* httpGET(QNetworkRequest);
+	void httpGET(const QString&,QUrlQuery);
+	void httpGET(QNetworkRequest);
 
-	QNetworkReply* httpPOST(const QString&, QUrlQuery);
-	QNetworkReply* httpPOST(QNetworkRequest);
-
+	// Status
+	bool isRunning() const;
+	bool isFinished() const;
+	ApiRequestError lastRequestStatus() const;
+	QString getErrorMsg() const;
 	
 public slots:
 	void syncInformation();
 
 
 private slots:
-	void updateInformation(const QByteArray& info);
+	void updateInformation(const QByteArray&);
 	void finishRequest(QNetworkReply*);
 
 private:
 	//Variables
 	QString fname, lname, token, id;
+	QUrl Avatar;
 	QDateTime lastUpdate;
 	QNetworkAccessManager* netManager;
+	QNetworkReply* lastNetReply;
+	ApiRequestError RequestStatus;
+	QString ErrorMsg;
 
+	ApiRequestError checkForErrors(const QByteArray&);
 	QString LogIn(const QString&, const QString&); // Login and return Access token
 };
