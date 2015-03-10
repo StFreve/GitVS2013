@@ -19,7 +19,6 @@ public:
 	// Constructors and Destructor
 	vkAccount(QWidget* = 0);
 	vkAccount(const QString&, QWidget* = 0);  // Init with Access token
-	vkAccount(const QString&, const QString&, QWidget* = 0); //Init with Login and Password
 	~vkAccount();
 
 	// Read functions
@@ -60,5 +59,4 @@ private:
 	QString ErrorMsg;
 
 	ApiRequestError checkForErrors(const QByteArray&);
-	QString LogIn(const QString&, const QString&); // Login and return Access token
 };

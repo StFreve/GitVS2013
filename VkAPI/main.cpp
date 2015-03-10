@@ -36,13 +36,13 @@ using namespace vk;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	vkAccountUI* ui = new vkAccountUI;
+	/*vkAccountUI* ui = new vkAccountUI;
 	vkLogin* login = new vkLogin;
 	QWidget::connect(login, SIGNAL(tokenWasGet(const QString&)), ui, SLOT(setToken(const QString&)));
 	QWidget::connect(ui->getAccount(), SIGNAL(syncStarted()), ui, SLOT(show()));
-	QWidget::connect(login, SIGNAL(tokenWasGet(const QString&)), login, SLOT(close()));
-
-	login->go();
-	login->show();
+	QPushButton pb;
+	login->go();*/
+	ParallelControl w;
+	w.show();
 	return a.exec();
 }

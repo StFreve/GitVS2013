@@ -1,8 +1,8 @@
 #include <vk.h>
 vk::vkAccount::vkAccount(QWidget* parent)
 	:QWidget(parent),
-	fname("uknown"), lname("uknown"),
-	token(""), id("uknown"),
+	fname("unknown"), lname("unknown"),
+	token(""), id("unknown"),
 	netManager(new QNetworkAccessManager(this)), lastNetReply(NULL), RequestStatus(NoErrors),
 	ErrorMsg("No Errors"){
 	connect(netManager, SIGNAL(finished(QNetworkReply*)), SLOT(finishRequest(QNetworkReply*)));
@@ -10,18 +10,13 @@ vk::vkAccount::vkAccount(QWidget* parent)
 
 vk::vkAccount::vkAccount(const QString& token, QWidget* parent)
 	:QWidget(parent),
-	fname("uknown"), lname("uknown"),
-	token(token),	id("uknown"),
+	fname("unknown"), lname("unknown"),
+	token(token),	id("unknown"),
 	netManager(new QNetworkAccessManager(this)), lastNetReply(NULL), RequestStatus(NoErrors),
 	ErrorMsg("No Errors"){
 	connect(netManager, SIGNAL(finished(QNetworkReply*)), SLOT(finishRequest(QNetworkReply*)));
 
 	syncInformation();
-}
-
-vk::vkAccount::vkAccount(const QString& login, const QString& password, QWidget* parent)
-	:vkAccount(LogIn(login,password),parent){
-
 }
 
 vk::vkAccount::~vkAccount(){
@@ -101,10 +96,6 @@ void vk::vkAccount::finishRequest(QNetworkReply* reply){
 		}
 	}
 	reply->deleteLater();
-}
-QString vk::vkAccount::LogIn(const QString& login, const QString& pass){
-	// TODO
-	return "nothing";
 }
 
 bool vk::vkAccount::isRunning() const{

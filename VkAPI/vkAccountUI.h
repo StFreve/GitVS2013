@@ -6,6 +6,7 @@ class vk::vkAccountUI: public QWidget{
 
 public:
 	vkAccountUI(QWidget* = 0);
+	vkAccountUI(vkAccount*, QWidget* = 0);
 	vkAccountUI(const QString& token, QWidget* = 0);
 	~vkAccountUI();
 
@@ -23,7 +24,7 @@ private:
 	QString AvatarFileName;
 	static const QString DefaultAvatar;
 
-
+	void setView();
 	void downloadImage();
 private slots:
 	void saveAndSetDownloadedImage(QNetworkReply*);

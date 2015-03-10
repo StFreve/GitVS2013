@@ -7,17 +7,20 @@
 #include <qjson\parser.h>
 #include <QtWebKit>
 #include <QWebView>
+#include <QMenuBar>
+#include <QMenu>
+#include <ctime>
 namespace vk{
 	/* Variables */
 
-	const QUrl API_URL("https://api.vk.com/method/");
+	const QUrl API_URL("https://api.vk.com/method/"); 
 	const QUrl AUTH_URL("https://oauth.vk.com/authorize");
 	const QString APP_ID("4812089");
 	const QString API_VERSION("5.28");
 	const QString SCOPE("offline,wall,message");
+
 	/* Classes and Enums */
-
-
+	
 	enum ApiRequestError{ // Request Status
 		NoErrors = 0,
 		UknownError = 1,
@@ -52,14 +55,20 @@ namespace vk{
 		AdsError = 603,
 		RequestFailed = 1000
 	};
-	class vkAccount; // Main class, which make GET and POST requests to VK API
-	class StatusLabel;
-	class vkAccountUI;
-	class vkLogin;
+	class vkAccount; // Main class, which makes GET and POST requests to VK API
+	class StatusLabel; // Status of a connected account
+	class vkAccountUI; // vkAccount Wrapper. Shows first and last names, ID, Avatar, and account status
+	class vkLogin; // Web Interface to connect an account
+	class UserArea;
+	class vkAlarm;
+	class ParallelControl;
+	class Requests;
 }
 #include <vkLogin.h>
-#include <vk_api.h>
 #include <vkAccout.h>
 #include <StatusLabel.h>
 #include <vkAccountUI.h>
 #include <Requests.h>
+#include <UserArea.h>
+#include <vkAlarm.h>
+#include <ParallelControl.h>

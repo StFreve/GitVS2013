@@ -1,23 +1,31 @@
 #pragma once
 #include <vk.h>
-
-class Requests :public QObject{
+using namespace vk;
+class vk::Requests :public QObject{
 	Q_OBJECT
 
-		typedef vk::vkAccount vkA;
-	QTimer timer;
-	QList<vkA*> vkList;
 public:
-	Requests(QObject* = 0);
-	Requests(const QList<vkA*>&, QObject* = 0);
-
-	void setAccountList(const QList<vkA*>&);
-	void addAccount(vkA*);
-	void deleteAccount(vkA*);
-	QList<vkA*> AccountList() const;
-
+	enum SendType{
+		Default,    // Send the same request to all users, and only then changes it to the next
+		Random      // Send a random request to each users
+	};
+	Requests(const QList<vkAccount*>&, const QString&, const QMap<QString, QVector<QString> >&, QTime = QTime(0,0), QTime = QTime(0,0,30), SendType = Default, QWidget* = 0);
+	Requests(const QList<vkAccount*>&, const QString&, const QMap<QString, QVector<QString> >&, QTime, QTime = QTime(0, 0), QTime = QTime(0, 0, 30), SendType = Default, QWidget* = 0);
+signals:
+	void requestIsEmpty();
 public slots:
-	void wallPost();//const QString&, const QString&, const QString&); // owner_id, message, attachment;
+	void removeUser(vkAccount*);
+	void sendRequest();
+private:
+	const QString method;
+	QMap<QString, QVector<QString> > requestParametrs;
+	QList<vkAlarm> users;
+	QTime delayUser, repeatTime;
+	bool repeat;
+	SendType sendType;
+	size_t requestsLeft;
+	size_t requestsSend;
 
-	void sendRequest(const QString&, const QUrlQuery&);
+	QUrlQuery radnomRequest();
+	QUrlQuery defaultRequest();
 };

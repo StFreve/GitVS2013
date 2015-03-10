@@ -6,10 +6,13 @@ class vk::vkLogin :public QWidget{
 public:
 	vkLogin(QWidget* = 0);
 signals:
-	void tokenWasGet(const QString&);
+	void newUser(vkAccount*);
 public slots:
 	void urlChanged(const QUrl&);
 	void go();
+private slots:
+	void showLogin(bool);
+	void createUser(const QString&);
 private:
 	QWebView* Page;
 
