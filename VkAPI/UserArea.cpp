@@ -3,6 +3,7 @@ using namespace vk;
 UserArea::UserArea(QWidget* parent)
 	:QScrollArea(parent),
 	mainLayout(new QVBoxLayout){
+	mainLayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 	QWidget* wgt = new QWidget;
 	wgt->setLayout(mainLayout);
 	setWidget(wgt);

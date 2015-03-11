@@ -9,10 +9,16 @@ class vk::ParallelControl :public QMainWindow{
 public:
 	ParallelControl(QWidget* = 0);
 	~ParallelControl();
-	public slots:
-	void testing();
+signals:
+	void pauseAll();
+	void resumeAll();
 private:
+	void addTestingMenu();
 	QMenuBar* menuBar;
 	UserArea* userArea;
 	vkLogin* loginWindow;
+
+private slots:
+	void testRequest();
+	void testAddUsers();
 };

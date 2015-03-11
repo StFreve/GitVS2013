@@ -5,12 +5,15 @@ Requests::Requests(const QList<vkAccount*>& userList, const QString& method, con
 	delayUser(delayUser), sendType(type), requestsSend(0),
 	QObject(parent), requestsLeft(userList.size()),repeat(false){
 	QTime delayIt(delay);
+	vkAlarm* alarm;
 	foreach(vkAccount* vkUser, userList){
-		users.push_back(vkUser);
-		users.back().setInterval(delayIt.msecsSinceStartOfDay());
-		connect(&users.back(), SIGNAL(timeout()), SLOT(sendRequest()));
-		delayIt.addMSecs(delayUser.msecsSinceStartOfDay());
-		users.back().start();
+		alarm = users[vkUser] = new vkAlarm(vkUser, delayIt.msecsSinceStartOfDay());
+		connect(alarm, SIGNAL(timeout()), SLOT(sendRequest()));
+		connect(this, SIGNAL(pause()), alarm, SLOT(pause()));
+		connect(this, SIGNAL(start()), alarm, SLOT(start()));
+		connect(this, SIGNAL(resume()), alarm, SLOT(resume()));
+		delayIt = delayIt.addMSecs(delayUser.msecsSinceStartOfDay());
+		alarm->start();
 	}
 }
 
@@ -19,12 +22,16 @@ Requests::Requests(const QList<vkAccount*>& userList, const QString& method, con
 	delayUser(delayUser), sendType(type), requestsSend(0),
 	QObject(parent), requestsLeft(userList.size()),repeat(true){
 	QTime delayIt(delay);
+	vkAlarm* alarm;
 	foreach(vkAccount* vkUser, userList){
-		users.push_back(vkUser);
-		users.back().setInterval(delayIt.msecsSinceStartOfDay());
-		connect(&users.back(), SIGNAL(timeout()), SLOT(sendRequest()));
-		delayIt.addMSecs(delayUser.msecsSinceStartOfDay());
-		users.back().start();
+		alarm = users[vkUser] = new vkAlarm(vkUser, delayIt.msecsSinceStartOfDay());
+		connect(alarm, SIGNAL(timeout()), SLOT(sendRequest()));
+		connect(this, SIGNAL(pause()), alarm, SLOT(pause()));
+		connect(this, SIGNAL(start()), alarm, SLOT(start()));
+		connect(this, SIGNAL(resume()), alarm, SLOT(resume()));
+		connect(alarm, SIGNAL(destroyed()), SLOT(removeUser()));
+		delayIt = delayIt.addMSecs(delayUser.msecsSinceStartOfDay());
+		alarm->start();
 	}
 }
 
@@ -43,13 +50,13 @@ void Requests::sendRequest(){
 		}
 	}
 }
+void Requests::removeUser(){
+	removeUser((vkAccount*)sender());
+}
 
 void Requests::removeUser(vkAccount* userToDelete){
-	for (auto it = users.begin(); it != users.end(); ++it){
-		if (it->getUser() == userToDelete){
-			users.erase(it);
-			break;
-		}
+	if (users.contains(userToDelete)){
+		users.remove(userToDelete);
 	}
 }
 

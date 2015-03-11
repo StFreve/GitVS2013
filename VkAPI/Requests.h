@@ -13,13 +13,17 @@ public:
 	Requests(const QList<vkAccount*>&, const QString&, const QMap<QString, QVector<QString> >&, QTime, QTime = QTime(0, 0), QTime = QTime(0, 0, 30), SendType = Default, QWidget* = 0);
 signals:
 	void requestIsEmpty();
+	void pause();
+	void start();
+	void resume();
 public slots:
 	void removeUser(vkAccount*);
+	void removeUser();
 	void sendRequest();
 private:
 	const QString method;
 	QMap<QString, QVector<QString> > requestParametrs;
-	QList<vkAlarm> users;
+	QMap<vkAccount*, vkAlarm*> users;
 	QTime delayUser, repeatTime;
 	bool repeat;
 	SendType sendType;

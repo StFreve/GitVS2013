@@ -19,27 +19,39 @@ ParallelControl::ParallelControl(QWidget* parent)
 	menuBar->addMenu(menu);
 
 
-	menu = new QMenu("Testing");
-	menu->addAction("Send Request", this, SLOT(testing()));
-	menuBar->addMenu(menu);
-
+	
+	addTestingMenu();
 
 	setMenuBar(menuBar);
 	setCentralWidget(userArea);
 	connect(loginWindow, SIGNAL(newUser(vkAccount*)), userArea, SLOT(addUser(vkAccount*)));
-
+	resize(300, 300);
 
 }
 ParallelControl::~ParallelControl(){
 
 }
-void ParallelControl::testing(){
+
+void ParallelControl::addTestingMenu(){
+	QMenu* menu = new QMenu("Testing");
+	menu->addAction("Send Request", this, SLOT(testRequest()));
+	menu->addAction("Pause All", this, SIGNAL(pauseAll()));
+	menu->addAction("Resume All", this, SIGNAL(resumeAll()));
+	menu->addAction("Add User", this, SLOT(testAddUsers()));
+	menuBar->addMenu(menu);
+}
+
+void ParallelControl::testRequest(){
 	vkAccountUI* userUI = (vkAccountUI*)userArea->widget()->layout()->itemAt(0)->widget();
 	vkAccount* user = userUI->getAccount();
 	QList<vkAccount*> lst;
 	lst.push_back(user);
 	QMap < QString, QVector<QString> > m;
-	m["message"].push_back("Hello World!");
-	m["message"].push_back("Hello Friends!");
-	Requests* req = new Requests(lst, "wall.post", m, QTime(0, 0, 5), QTime(0, 0), QTime(0, 0, 5));
+	Requests* req = new Requests(lst, "users.get", m, QTime(0, 0, 5), QTime(0, 0), QTime(0, 0, 5));
+	connect(this, SIGNAL(pauseAll()), req, SIGNAL(pause()));
+	connect(this, SIGNAL(resumeAll()), req, SIGNAL(resume()));
+}
+
+void ParallelControl::testAddUsers(){
+	emit loginWindow->newUser(new vkAccount("7233eab01fc001bd4eb033d9d6215c876fa5bf56a3d68eed62553260b0093ce03e91d45ab0ba066e8fb07"));
 }
