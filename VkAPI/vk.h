@@ -17,7 +17,7 @@ namespace vk{
 	const QUrl AUTH_URL("https://oauth.vk.com/authorize");
 	const QString APP_ID("4812089");
 	const QString API_VERSION("5.28");
-	const QString SCOPE("offline,wall,message");
+	const QString SCOPE("offline,wall,messages");
 
 	/* Classes and Enums */
 	
@@ -63,6 +63,9 @@ namespace vk{
 	class vkAlarm;
 	class ParallelControl;
 	class Requests;
+	class Logger;
+	class RequestTimeSettings;
+	class RequestCreator;
 }
 #include <vkLogin.h>
 #include <vkAccout.h>
@@ -71,4 +74,7 @@ namespace vk{
 #include <Requests.h>
 #include <UserArea.h>
 #include <vkAlarm.h>
+#include <Logger.h>
+#include <RequestTimeSettings.h>
 #include <ParallelControl.h>
+#include <RequestCreator.h>

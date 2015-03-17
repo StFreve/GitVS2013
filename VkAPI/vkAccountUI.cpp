@@ -1,30 +1,23 @@
 #include <vk.h>
 const QString vk::vkAccountUI::DefaultAvatar("Images\\default.png");
 
-vk::vkAccountUI::vkAccountUI(QWidget* parent)
-	:QWidget(parent){
-	user = new vkAccount(this);
-	fname = new QLabel("First Name: ");
-	lname = new QLabel("Last Name: ");
-	id = new QLabel("User ID: ");
-	avatar = new QLabel;
-	connect(user, SIGNAL(syncFinished()), SLOT(updateInformation()));
-
-	setView();
-}
 vk::vkAccountUI::vkAccountUI(vkAccount* user, QWidget* parent)
 	:QWidget(parent),
 	user(user){
+	if (!user)
+		user = new vkAccount(this);
 	fname = new QLabel("First Name: ");
 	lname = new QLabel("Last Name: ");
 	id = new QLabel("User ID: ");
+	state = new QCheckBox;
 	avatar = new QLabel;
+	
 	connect(user, SIGNAL(syncFinished()), SLOT(updateInformation()));
 
 	setView();
 }
 vk::vkAccountUI::vkAccountUI(const QString& token, QWidget* parent)
-	:vkAccountUI(parent){
+	:vkAccountUI(0,parent){
 	setToken(token);
 }
 vk::vkAccountUI::~vkAccountUI(){
@@ -105,6 +98,9 @@ void vk::vkAccountUI::setView(){
 
 	avatar->setPixmap(QPixmap(DefaultAvatar).scaled(56, 56));
 
+	state->setChecked(true);
+	connect(state, SIGNAL(stateChanged(int)), SLOT(setActive(int)));
+	
 	QVBoxLayout* info_layout = new QVBoxLayout;
 	info_layout->setMargin(0);
 	info_layout->setAlignment(Qt::AlignRight | Qt::AlignTop);
@@ -122,6 +118,7 @@ void vk::vkAccountUI::setView(){
 	main_layout = new QHBoxLayout;
 	main_layout->setMargin(0);
 	main_layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+	main_layout->addWidget(state, 0, Qt::AlignCenter);
 	main_layout->addWidget(avatar);     // Avatar
 	main_layout->addLayout(info_layout); // Account Information
 	main_layout->addSpacing(50);
@@ -131,4 +128,19 @@ void vk::vkAccountUI::setView(){
 	
 	if (user->getFirstName() != "unknown")
 		updateInformation();
+}
+
+
+void vk::vkAccountUI::setChecked(int st){
+	state->setChecked(st);
+}
+
+void vk::vkAccountUI::setActive(int st){
+	if (st == 0 || st == 1){
+		emit stateChanged(st);
+	}
+}
+
+bool vk::vkAccountUI::isCheked() const{
+	return state->isChecked();
 }

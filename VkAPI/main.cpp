@@ -8,6 +8,7 @@ using namespace vk;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	srand(time(NULL));
 	ParallelControl w;
 	w.show();
 	return a.exec();

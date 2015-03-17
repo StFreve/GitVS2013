@@ -11,6 +11,7 @@ public:
 	};
 	Requests(const QList<vkAccount*>&, const QString&, const QMap<QString, QVector<QString> >&, QTime = QTime(0,0), QTime = QTime(0,0,30), SendType = Default, QWidget* = 0);
 	Requests(const QList<vkAccount*>&, const QString&, const QMap<QString, QVector<QString> >&, QTime, QTime = QTime(0, 0), QTime = QTime(0, 0, 30), SendType = Default, QWidget* = 0);
+	Requests(const QList<vkAccount*>&, const QString&, const QMap<QString, QVector<QString> >&, const RequestTimeSettings&, SendType = Default, QWidget* = 0);
 signals:
 	void requestIsEmpty();
 	void pause();

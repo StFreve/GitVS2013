@@ -1,6 +1,7 @@
 #pragma once
 #include <vk.h>
 #include <UserArea.h>
+using namespace vk;
 class vk::ParallelControl :public QMainWindow{
 	Q_OBJECT
 
@@ -17,8 +18,13 @@ private:
 	QMenuBar* menuBar;
 	UserArea* userArea;
 	vkLogin* loginWindow;
-
+	RequestCreator* requestCreator;
+	Logger* log;
+	QList<vkAccount*> allUsers;
 private slots:
 	void testRequest();
+	void testErrorRequest();
 	void testAddUsers();
+	void newUser(vkAccount*);
+	void testCreateRequest();
 };

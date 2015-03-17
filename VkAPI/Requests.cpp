@@ -35,6 +35,22 @@ Requests::Requests(const QList<vkAccount*>& userList, const QString& method, con
 	}
 }
 
+Requests::Requests(const QList<vkAccount*>& userList, const QString& method, const QMap<QString, QVector<QString> >& reqPar, const RequestTimeSettings& timeSet, SendType type, QWidget* parent)
+	:method(method), requestParametrs(reqPar), repeatTime(timeSet.repeatTime()),
+	delayUser(timeSet.userDelayTime()), sendType(type), requestsSend(0),
+	QObject(parent), requestsLeft(userList.size()), repeat(timeSet.repeat()){
+	QTime delayIt(timeSet.delayTime());
+	vkAlarm* alarm;
+	foreach(vkAccount* vkUser, userList){
+		alarm = users[vkUser] = new vkAlarm(vkUser, delayIt.msecsSinceStartOfDay());
+		connect(alarm, SIGNAL(timeout()), SLOT(sendRequest()));
+		connect(this, SIGNAL(pause()), alarm, SLOT(pause()));
+		connect(this, SIGNAL(start()), alarm, SLOT(start()));
+		connect(this, SIGNAL(resume()), alarm, SLOT(resume()));
+		delayIt = delayIt.addMSecs(delayUser.msecsSinceStartOfDay());
+		alarm->start();
+	}
+}
 void Requests::sendRequest(){
 	vkAlarm* userToSend = (vkAlarm*)sender();
 	userToSend->stop();
