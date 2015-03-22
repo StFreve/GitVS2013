@@ -3,7 +3,7 @@ using namespace vk;
 Requests::Requests(const QList<vkAccount*>& userList, const QString& method, const QMap<QString, QVector<QString> >& reqPar, QTime delay, QTime delayUser, SendType type, QWidget* parent)
 	:method(method), requestParametrs(reqPar),
 	delayUser(delayUser), sendType(type), requestsSend(0),
-	QObject(parent), requestsLeft(userList.size()),repeat(false){
+	QFrame(parent), requestsLeft(userList.size()), repeat(false){
 	QTime delayIt(delay);
 	vkAlarm* alarm;
 	foreach(vkAccount* vkUser, userList){
@@ -15,12 +15,13 @@ Requests::Requests(const QList<vkAccount*>& userList, const QString& method, con
 		delayIt = delayIt.addMSecs(delayUser.msecsSinceStartOfDay());
 		alarm->start();
 	}
+	setVisual();
 }
 
 Requests::Requests(const QList<vkAccount*>& userList, const QString& method, const QMap<QString, QVector<QString> >& reqPar, QTime repeatTime, QTime delay, QTime delayUser, SendType type, QWidget* parent)
 	:method(method), requestParametrs(reqPar), repeatTime(repeatTime),
 	delayUser(delayUser), sendType(type), requestsSend(0),
-	QObject(parent), requestsLeft(userList.size()),repeat(true){
+	QFrame(parent), requestsLeft(userList.size()), repeat(true){
 	QTime delayIt(delay);
 	vkAlarm* alarm;
 	foreach(vkAccount* vkUser, userList){
@@ -33,12 +34,13 @@ Requests::Requests(const QList<vkAccount*>& userList, const QString& method, con
 		delayIt = delayIt.addMSecs(delayUser.msecsSinceStartOfDay());
 		alarm->start();
 	}
+	setVisual();
 }
 
 Requests::Requests(const QList<vkAccount*>& userList, const QString& method, const QMap<QString, QVector<QString> >& reqPar, const RequestTimeSettings& timeSet, SendType type, QWidget* parent)
 	:method(method), requestParametrs(reqPar), repeatTime(timeSet.repeatTime()),
 	delayUser(timeSet.userDelayTime()), sendType(type), requestsSend(0),
-	QObject(parent), requestsLeft(userList.size()), repeat(timeSet.repeat()){
+	QFrame(parent), requestsLeft(userList.size()), repeat(timeSet.repeat()){
 	QTime delayIt(timeSet.delayTime());
 	vkAlarm* alarm;
 	foreach(vkAccount* vkUser, userList){
@@ -50,6 +52,7 @@ Requests::Requests(const QList<vkAccount*>& userList, const QString& method, con
 		delayIt = delayIt.addMSecs(delayUser.msecsSinceStartOfDay());
 		alarm->start();
 	}
+	setVisual();
 }
 void Requests::sendRequest(){
 	vkAlarm* userToSend = (vkAlarm*)sender();
@@ -93,4 +96,24 @@ QUrlQuery Requests::defaultRequest(){
 		query.addQueryItem(it.key(), (*it)[index % it->size() ]);
 	}
 	return query;
+}
+
+void Requests::setVisual(QString reqName){
+	QHBoxLayout *hl = new QHBoxLayout;
+	QLabel* name = new QLabel(reqName);
+	QPushButton* close = new QPushButton(name);
+	name->setObjectName("Request");
+	close->setObjectName("Request");
+	hl->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+	hl->setMargin(0);
+	hl->addWidget(name);
+	hl->addWidget(close);
+	setLayout(hl);
+	close->setFixedSize(15, 15);
+	name->setMinimumHeight(20);
+	setMaximumHeight(30);
+	setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+	connect(close, SIGNAL(clicked()), SLOT(deleteLater()));
+	
 }

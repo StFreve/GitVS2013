@@ -20,6 +20,7 @@ private:
 	vkLogin* loginWindow;
 	RequestCreator* requestCreator;
 	Logger* log;
+	RequestsViewer* reqView;
 	QList<vkAccount*> allUsers;
 private slots:
 	void testRequest();

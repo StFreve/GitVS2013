@@ -1,7 +1,7 @@
 #pragma once
 #include <vk.h>
 using namespace vk;
-class vk::UserArea :public QScrollArea{
+class vk::UserArea :public QWidget{
 	Q_OBJECT
 
 public:
@@ -10,10 +10,13 @@ public:
 public slots:
 	void addUser(vkAccount*);
 	void deleteUser(vkAccount*);
+	QList<vkAccount*> getCheckedUsers() const;
+private slots:
 	void checkAll();
 	void uncheckAll();
-	QList<vkAccount*> getCheckedUsers() const;
+	void userStateChanged(int);
 private:
 	QMap<vkAccount*, vkAccountUI*> linkUI;
 	QVBoxLayout* mainLayout;
+	size_t checkedUserCounter;
 };

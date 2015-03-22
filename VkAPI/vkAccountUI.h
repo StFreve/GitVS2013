@@ -1,9 +1,9 @@
 #pragma once 
 #include <vk.h>
 
-class vk::vkAccountUI: public QWidget{
+class vk::vkAccountUI: public QPushButton {
 	Q_OBJECT
-
+	Q_PROPERTY(bool checked READ isChecked)
 public:
 	vkAccountUI(vkAccount* = 0, QWidget* = 0);
 	vkAccountUI(const QString& token, QWidget* = 0);
@@ -13,11 +13,14 @@ public:
 	vkAccount* getAccount() const;
 signals:
 	void stateChanged(int);
+	void pressed();
 public slots:
 	void setChecked(int);
 	void updateInformation();
 	void setToken(const QString&);
-	bool isCheked() const;
+	bool isChecked() const;
+protected:
+	void mouseReleaseEvent(QMouseEvent *);
 private slots:
 	void setActive(int);
 

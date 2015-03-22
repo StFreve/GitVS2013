@@ -140,6 +140,18 @@
     <ClCompile Include="GeneratedFiles\Release\moc_RequestCreator.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="RequestsViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RequestsViewer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RequestsViewer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="flowlayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="vk_api.ui">
@@ -181,6 +193,9 @@
     <CustomBuild Include="RequestCreator.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="RequestsViewer.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vk.h">
@@ -189,10 +204,18 @@
     <ClInclude Include="GeneratedFiles\ui_vk_api.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="flowlayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\..\..\..\..\..\Program Files %28x86%29\qjson\lib\qjson.lib">
       <Filter>Resource Files</Filter>
     </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Style.qss">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

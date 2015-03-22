@@ -4,10 +4,17 @@
 #include <vkAccout.h>
 #include <QJsonArray>
 #include <QScrollArea>
+#include <QStyle>
 using namespace vk;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	
+	QFile file("Style.qss");
+	file.open(QFile::ReadOnly);
+	QString strCSS = QLatin1String(file.readAll());
+	qApp->setStyleSheet(strCSS);
+	
 	srand(time(NULL));
 	ParallelControl w;
 	w.show();

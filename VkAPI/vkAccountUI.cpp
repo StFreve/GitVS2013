@@ -2,7 +2,7 @@
 const QString vk::vkAccountUI::DefaultAvatar("Images\\default.png");
 
 vk::vkAccountUI::vkAccountUI(vkAccount* user, QWidget* parent)
-	:QWidget(parent),
+	:QPushButton(parent),
 	user(user){
 	if (!user)
 		user = new vkAccount(this);
@@ -13,7 +13,7 @@ vk::vkAccountUI::vkAccountUI(vkAccount* user, QWidget* parent)
 	avatar = new QLabel;
 	
 	connect(user, SIGNAL(syncFinished()), SLOT(updateInformation()));
-
+	connect(this, SIGNAL(clicked()), SLOT(invertCheck()));
 	setView();
 }
 vk::vkAccountUI::vkAccountUI(const QString& token, QWidget* parent)
@@ -98,7 +98,7 @@ void vk::vkAccountUI::setView(){
 
 	avatar->setPixmap(QPixmap(DefaultAvatar).scaled(56, 56));
 
-	state->setChecked(true);
+	state->setChecked(false);
 	connect(state, SIGNAL(stateChanged(int)), SLOT(setActive(int)));
 	
 	QVBoxLayout* info_layout = new QVBoxLayout;
@@ -116,31 +116,40 @@ void vk::vkAccountUI::setView(){
 	status_layout->addWidget(requestLabel);
 
 	main_layout = new QHBoxLayout;
-	main_layout->setMargin(0);
-	main_layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+	main_layout->setMargin(5);
+	main_layout->setAlignment(Qt::AlignCenter);
 	main_layout->addWidget(state, 0, Qt::AlignCenter);
 	main_layout->addWidget(avatar);     // Avatar
 	main_layout->addLayout(info_layout); // Account Information
-	main_layout->addSpacing(50);
 	main_layout->addStretch(50);
 	main_layout->addLayout(status_layout); // Status 
 	setLayout(main_layout);
 	
 	if (user->getFirstName() != "unknown")
 		updateInformation();
+	setFixedHeight(70);
 }
 
 
 void vk::vkAccountUI::setChecked(int st){
-	state->setChecked(st);
+	if (bool(st) != state->isChecked()){
+		state->setChecked(bool(st));
+		setProperty("cheked", bool(st));
+	}
 }
 
 void vk::vkAccountUI::setActive(int st){
-	if (st == 0 || st == 1){
+	if (st == 0 || st == 2){
 		emit stateChanged(st);
 	}
 }
 
-bool vk::vkAccountUI::isCheked() const{
+bool vk::vkAccountUI::isChecked() const{
 	return state->isChecked();
+}
+
+void vk::vkAccountUI::mouseReleaseEvent(QMouseEvent *me){
+	if (me->x() >= 0 && me->y() >= 0 && me->x() <= width() && me->y() <= height())
+		setChecked(!isChecked());
+	QPushButton::mouseReleaseEvent(me);
 }

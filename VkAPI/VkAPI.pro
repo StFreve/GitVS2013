@@ -4,7 +4,6 @@
 
 TEMPLATE = app
 TARGET = VkAPI
-LIBS += -L"C:\Program Files (x86)\qjson" -lqjson
 DESTDIR = ../Win32/Debug
 QT += core network xml script xmlpatterns webkit widgets gui webkitwidgets
 CONFIG += debug

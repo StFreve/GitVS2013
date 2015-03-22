@@ -8,10 +8,28 @@ message("You are running qmake on a generated .pro file. This may not work!")
 
 
 HEADERS += ./vk.h \
-    ./vk_api.h \
+    ./vkAlarm.h \
+    ./vkLogin.h \
+    ./StatusLabel.h \
+    ./Requests.h \
+    ./ParallelControl.h \
+    ./UserArea.h \
+    ./Logger.h \
+    ./RequestTimeSettings.h \
+    ./RequestCreator.h \
+    ./vkAccountUI.h \
     ./vkAccout.h
-SOURCES += ./main.cpp \
+SOURCES += ./Logger.cpp \
+    ./main.cpp \
+    ./ParallelControl.cpp \
+    ./RequestCreator.cpp \
+    ./Requests.cpp \
+    ./RequestTimeSettings.cpp \
+    ./StatusLabel.cpp \
+    ./UserArea.cpp \
     ./vkAccount.cpp \
-    ./vk_api.cpp
+    ./vkAccountUI.cpp \
+    ./vkAlarm.cpp \
+    ./vkLogin.cpp
 FORMS += ./vk_api.ui
 RESOURCES += vk_api.qrc

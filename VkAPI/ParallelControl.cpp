@@ -5,7 +5,8 @@ ParallelControl::ParallelControl(QWidget* parent)
 	menuBar(new QMenuBar(this)),
 	userArea(new UserArea),
 	loginWindow(new vkLogin),
-	requestCreator(new RequestCreator){
+	requestCreator(new RequestCreator),
+	reqView(new RequestsViewer){
 	QWidget* centralWidget = new QWidget;
 	
 	QMenu* menu = new QMenu("File");
@@ -31,8 +32,14 @@ ParallelControl::ParallelControl(QWidget* parent)
 	QHBoxLayout* lb = new QHBoxLayout;
 	lb->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 	lb->addWidget(userArea);
-	
-	lb->addWidget(log);
+	//userArea->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
+	QVBoxLayout* vbl = new QVBoxLayout;
+	vbl->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+	vbl->addWidget(new QLabel("Requests"));
+	vbl->addWidget(reqView);
+	vbl->addWidget(new QLabel("Logs"));
+	vbl->addWidget(log);
+	lb->addLayout(vbl);
 	centralWidget->setLayout(lb);
 
 	setMenuBar(menuBar);
@@ -70,6 +77,7 @@ void ParallelControl::testRequest(){
 	Requests* req = new Requests(allUsers, "users.get", m, QTime(0, 0, 10), QTime(0, 0), QTime(0, 0, 1), vk::Requests::SendType::Random);
 	connect(this, SIGNAL(pauseAll()), req, SIGNAL(pause()));
 	connect(this, SIGNAL(resumeAll()), req, SIGNAL(resume()));
+	reqView->addRequest(req);
 }
 
 void ParallelControl::testErrorRequest(){

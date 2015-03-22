@@ -61,20 +61,23 @@ namespace vk{
 	class vkLogin; // Web Interface to connect an account
 	class UserArea;
 	class vkAlarm;
-	class ParallelControl;
 	class Requests;
+	class RequestsViewer;
 	class Logger;
 	class RequestTimeSettings;
 	class RequestCreator;
+	class ParallelControl;
 }
+#include <flowlayout.h>
 #include <vkLogin.h>
 #include <vkAccout.h>
 #include <StatusLabel.h>
 #include <vkAccountUI.h>
 #include <Requests.h>
+#include <RequestsViewer.h>
 #include <UserArea.h>
 #include <vkAlarm.h>
 #include <Logger.h>
 #include <RequestTimeSettings.h>
-#include <ParallelControl.h>
 #include <RequestCreator.h>
+#include <ParallelControl.h>

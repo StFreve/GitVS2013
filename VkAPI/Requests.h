@@ -1,7 +1,7 @@
 #pragma once
 #include <vk.h>
 using namespace vk;
-class vk::Requests :public QObject{
+class vk::Requests :public QFrame{
 	Q_OBJECT
 
 public:
@@ -33,4 +33,5 @@ private:
 
 	QUrlQuery radnomRequest();
 	QUrlQuery defaultRequest();
+	void setVisual(QString = "Request");
 };
